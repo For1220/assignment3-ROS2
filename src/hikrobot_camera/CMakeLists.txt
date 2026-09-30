@@ -3,6 +3,8 @@ project(hikrobot_camera)
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(cv_bridge REQUIRED)
 
 add_executable(camera_node
   src/main.cpp
@@ -10,7 +12,16 @@ add_executable(camera_node
 )
 target_compile_features(camera_node PRIVATE cxx_std_17)
 target_include_directories(camera_node PRIVATE include)
-ament_target_dependencies(camera_node rclcpp)
+# 链接海康 MVS SDK
+include_directories(/opt/MVS/include)
+link_directories(/opt/MVS/lib/64)
+
+# 添加依赖
+find_package(sensor_msgs REQUIRED)
+ament_target_dependencies(camera_node rclcpp sensor_msgs cv_bridge)
+
+# 链接海康核心库
+target_link_libraries( camera_node ${OpenCV_LIBS} /opt/MVS/lib/64/libMvCameraControl.so pthread)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   target_compile_options(camera_node PRIVATE -Wall -Wextra -Wpedantic)
