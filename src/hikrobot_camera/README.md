@@ -1,3 +1,6 @@
+请复制一份 `assignment3_ros2/src/hikrobot_camera` 到 `ros2_ws/src` 目录下，本项目在本地是以这个形式运行，若直接在 `assignment3_ros2` 的目录下编译，编译命令不适用。
+
+这很重要！
 
 ## 环境配置
 - Ubuntu 22.04 LTS
